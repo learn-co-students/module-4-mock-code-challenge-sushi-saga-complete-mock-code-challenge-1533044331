@@ -5,6 +5,7 @@ import Table from './containers/Table';
 
 // Endpoint!
 const API = "http://localhost:3000/api/v1/sushis"
+const startingWallet = 130;
 
 class App extends Component {
   constructor(props){
@@ -13,6 +14,8 @@ class App extends Component {
     this.state = {
       sushiData: [],
       currentMenu: [],
+      moneyRemaining: startingWallet,
+      consumedSushi: [],
     }
   }
 
@@ -26,12 +29,30 @@ class App extends Component {
   }
 
   handleSushiClick = (event, sushi) => {
-    console.log("You clicked this sushi: ", sushi)
-    let clonedCurrentMenu = [...this.state.currentMenu];
-    let foundIndex = clonedCurrentMenu.indexOf(sushi);
-    if (foundIndex !== -1){
-      clonedCurrentMenu.splice(foundIndex, 1)
-      return this.setState({currentMenu:clonedCurrentMenu});
+    let sushiPrice = sushi.price;
+    let moneyRemainingClone = this.state.moneyRemaining;
+
+    if (sushiPrice <= moneyRemainingClone){
+        let currentBalance = (moneyRemainingClone - sushiPrice);
+        let clonedCurrentMenu = [...this.state.currentMenu];
+        let clonedConsumedSushi = [...this.state.consumedSushi];
+        let foundIndex = clonedCurrentMenu.indexOf(sushi);
+        if (foundIndex !== -1){
+          let splicedItem = clonedCurrentMenu.splice(foundIndex, 1)
+          clonedConsumedSushi.push(splicedItem[0])
+          return this.setState({
+            currentMenu: clonedCurrentMenu,
+            moneyRemaining: currentBalance,
+            consumedSushi: clonedConsumedSushi,
+          });
+        }
+        //The app is working, and I'm almost out of time, but the setState below doesn't appear to be neccessary?? I would test/remove (if neccessary) if I had more time.
+        return this.setState({
+          moneyRemaining: currentBalance,
+        });
+    }
+    else {
+      alert("You don't have enough money!!!")
     }
 
   }
@@ -47,7 +68,7 @@ class App extends Component {
   }
 
   render() {
-    console.log("currentMenu at app render: ", this.state.currentMenu)
+    // console.log("consumedSushiArray at app render: ", this.state.consumedSushi)
     return (
       <div className="app">
         <SushiContainer
@@ -56,7 +77,10 @@ class App extends Component {
           handleSushiClick={this.handleSushiClick}
           handeMoreSushiButtonClick={this.updateSushiMenu}
           />
-        <Table />
+        <Table
+          moneyRemaining={this.state.moneyRemaining}
+          consumedSushi={this.state.consumedSushi}
+          />
       </div>
     );
   }

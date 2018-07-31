@@ -4,6 +4,15 @@ import MoreButton from '../components/MoreButton'
 import Sushi from '../components/Sushi'
 
 
+//Note:
+//
+//realized at the end that i hard coded the "eaten" boolean and never fixed it... but dealt with it in other ways..
+//
+
+//Also didn't know where to get the empty plate to display on the belt after it sushi was clicked so it just disspears...
+
+//If I had done the ternary as intended, seems the plate would have worked as shown in the gif.
+
 const SushiContainer = (props) => {
   return (
     <Fragment>
