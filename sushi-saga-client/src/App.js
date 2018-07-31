@@ -56,6 +56,8 @@ class App extends Component {
     this.generateFour()
   }
 
+
+  /* controlled form to set state of custmerCash */
   deposit = (event) => {
     event.preventDefault()
     console.log("deposit", event)
