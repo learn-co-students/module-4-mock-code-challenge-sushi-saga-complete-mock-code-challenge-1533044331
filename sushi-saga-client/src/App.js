@@ -48,16 +48,18 @@ class App extends Component {
   };
 
   handleSushiPlateClick = (sushi) => {
-    empty.push(sushi);
-    let index = this.state.sushis.findIndex((s) => s.id == sushi.id);
-    sushi.img_url = '';
-    let remaining = this.state.moneyRemaining - sushi.price;
-    this.state.sushis[index] = sushi;
-    this.setState({
-      sushis: this.state.sushis,
-      emptyPlates: empty,
-      moneyRemaining: remaining,
-    });
+    if (sushi.img_url !== '') {
+      empty.push(sushi);
+      let index = this.state.sushis.findIndex((s) => s.id == sushi.id);
+      sushi.img_url = '';
+      let remaining = this.state.moneyRemaining - sushi.price;
+      this.state.sushis[index] = sushi;
+      this.setState({
+        sushis: this.state.sushis,
+        emptyPlates: empty,
+        moneyRemaining: remaining,
+      });
+    }
   };
 
   render() {
