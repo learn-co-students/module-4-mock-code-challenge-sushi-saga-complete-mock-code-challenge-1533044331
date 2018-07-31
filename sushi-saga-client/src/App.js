@@ -58,13 +58,9 @@ class App extends Component {
       emptyPlates: empty,
       moneyRemaining: remaining,
     });
-    // if (this.state.moneyRemaining <= 0) {
-    //   this.state.moneyRemaining = 0;
-    // }
   };
 
   render() {
-    console.log(this.state.sushis);
     return (
       <div className="app">
         <SushiContainer
